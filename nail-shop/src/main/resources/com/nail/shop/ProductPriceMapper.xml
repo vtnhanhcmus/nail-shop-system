@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.ProductPriceMapper">
+
+    <resultMap id="ProductPriceMapper" type="ProductPrice">
+        <id column="p_id" jdbcType="INTEGER" property="id"/>
+        <result column="product_id" jdbcType="VARCHAR" property="productId"/>
+        <result column="discount" jdbcType="DOUBLE" property="discount"/>
+        <result column="price" jdbcType="DOUBLE" property="price"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO product_price
+        (
+            product_id,
+            discount,
+            price
+        )
+        VALUES
+        (
+            #{price.productId},
+            #{price.discount},
+            #{price.price}
+        );
+
+    </insert>
+
+    <select id="findByProductId" resultMap="ProductPriceMapper">
+        select
+        id as p_id,
+        product_id,
+        discount,
+        price
+        from product_price
+        where product_id = #{productId}
+    </select>
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.ShopMapper">
+
+    <resultMap id="shopMapper" type="Shops">
+        <id column="s_id" jdbcType="INTEGER" property="id"/>
+        <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="owner_id" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="Shops"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO shops
+        (
+            owner_id,
+            shop_id,
+            company_id
+        )
+        VALUES
+        (
+            #{shop.ownerId},
+            #{shop.shopId},
+            #{shop.companyId}
+        );
+
+    </insert>
+
+    <select id="findByShopId" resultMap="shopMapper">
+        select
+        id as s_id,
+        owner_id,
+        shop_id,
+        company_id
+        from shops s
+        where s.shop_id = :shopId
+    </select>
+
+</mapper>

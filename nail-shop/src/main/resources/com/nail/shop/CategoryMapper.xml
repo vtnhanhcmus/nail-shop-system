@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.CategoryMapper">
+
+    <resultMap id="categoryMapper" type="Categories">
+        <id column="c_id" jdbcType="INTEGER" property="id"/>
+        <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="Categories"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO categories
+        (
+        category_id,
+        name
+        )
+        VALUES
+        (
+        #{category.categoryId}
+        #{category.name}
+        );
+
+    </insert>
+
+    <select id="findByCategoryId" resultMap="categoryMapper">
+        select
+        id as c_id
+        from categories c
+        where c.category_id = :categoryId
+    </select>
+
+</mapper>

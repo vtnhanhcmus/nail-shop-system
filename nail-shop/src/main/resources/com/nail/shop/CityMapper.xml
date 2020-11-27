@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.CityMapper"  >
+
+    <resultMap id="cityMapper" type="Cities">
+        <id property="id" column="city_id" jdbcType="VARCHAR"/>
+        <result column="city_name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findByCountry" resultMap="cityMapper">
+        select
+            c.id as city_id,
+            c.name as city_name
+        from
+        cities c
+        where c.country_id = #{country_id}
+    </select>
+
+</mapper>

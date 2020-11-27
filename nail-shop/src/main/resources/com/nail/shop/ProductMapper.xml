@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.ProductMapper">
+
+    <resultMap id="productMapper" type="Products">
+        <id column="p_id" jdbcType="INTEGER" property="id"/>
+        <result column="product_id" jdbcType="VARCHAR" property="productId"/>
+        <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="category_id" jdbcType="VARCHAR" property="categoryId"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO products
+        (
+            product_id,
+            shop_id,
+            category_id
+        )
+        VALUES
+        (
+            #{product.productId},
+            #{product.shopId},
+            #{categoryId}
+        );
+    </insert>
+
+
+    <select id="findByProductId" resultMap="productMapper">
+        select
+        id as p_id,
+        product_id,
+        shop_id,
+        category_id
+        from products p
+        where p.product_id = :productId
+    </select>
+
+</mapper>

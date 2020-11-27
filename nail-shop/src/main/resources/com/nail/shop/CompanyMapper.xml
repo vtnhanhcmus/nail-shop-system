@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.CompanyMapper">
+
+    <resultMap id="companyMapper" type="Companies">
+        <id column="c_id" property="id" jdbcType="INTEGER"/>
+        <result column="company_id" property="companyId" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="owner_id" property="ownerId" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="image_path" property="imagePath" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO companies
+        (
+            company_id,
+            owner_id,
+            name,
+            description,
+            insert_user,
+            insert_date,
+            image_path
+        )
+        VALUES
+        (
+            #{company.companyId},
+            #{company.ownerId},
+            #{company.name},
+            #{company.description},
+            #{company.insertUser},
+            NOW(),
+            #{company.imagePath}
+        );
+    </insert>
+
+    <select id="findByCompanyId" resultMap="companyMapper">
+        select
+        c.id as c_id,
+        c.company_id as company_id,
+        c.name as name,
+        c.owner_id as owner_id,
+        c.description as description,
+        c.image_path as image_path
+        from
+        companies c
+        where c.company_id = #{companyId}
+    </select>
+
+    <update id="update">
+        UPDATE companies
+        SET
+        name = #{company.name},
+        owner_id = #{company.ownerId},
+        description = #{company.description},
+        image_path = #{company.imagePath},
+        update_date = NOW()
+        WHERE id = #{company.id};
+    </update>
+
+
+</mapper>

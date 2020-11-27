@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.UserProfileMapper">
+
+    <resultMap id="userProfileMapper" type="UserProfile">
+        <id column="up_id" jdbcType="INTEGER" property="id"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO user_profile
+        (
+            id,
+            user_id,
+            first_name,
+            last_name,
+            sex,
+            insert_user,
+            insert_date
+        )
+        VALUES
+        (
+            #{userProfile.id},
+            #{userProfile.userId},
+            #{userProfile.firstName},
+            #{userProfile.lastName},
+            #{userProfile.sex},
+            #{userProfile.insertUser},
+            NOW()
+        );
+    </insert>
+
+    <update id="update">
+        UPDATE user_profile
+        SET
+        first_name = #{first_name},
+        last_name = #{last_name},
+        sex = #{sex},
+        update_date = NOW()
+        WHERE id = #{profile.profileId}
+    </update>
+
+
+</mapper>

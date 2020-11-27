@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.AddressMapper">
+
+    <resultMap id="addressMapper" type="UserAddresses">
+        <!--<constructor>
+            <idArg column="user_address_id" javaType="INTEGER"/>
+        </constructor>-->
+        <id property="id" jdbcType="BINARY" column="a_id"/>
+        <result column="street_name" property="streetName" jdbcType="VARCHAR"/>
+        <association property="city" javaType="Cities" resultMap="com.nail.shop.mappers.CityMapper.cityMapper"/>
+        <association property="country" javaType="Countries" resultMap="com.nail.shop.mappers.CountryMapper.countryResult"/>
+        <association property="district" javaType="Districts" resultMap="com.nail.shop.mappers.DistrictMapper.districtMapper"/>
+    </resultMap>
+
+    <select id="findByUserProfile" resultMap="addressMapper">
+        SELECT
+            user_addresses.id,
+            user_addresses.street_name,
+            cities.name as city_name,
+            countries.country_id as country_id,
+            countries.name as country_name,
+            districts.district_id as district_id
+            districts.name as district_name
+
+        FROM user_addresses
+        LEFT JOIN countries ON user_addresses.country_id = countries.id
+        LEFT JOIN cities ON user_addresses.city_id = cities.id
+        LEFT JOIN districts ON user_addresses.district_id = districts.id
+        WHERE user_addresses.user_profile_id = #{user_profile_id}
+    </select>
+
+    <insert id="insert">
+        insert into
+        user_addresses(
+            user_profile_id,
+            city_id,
+            country_id,
+            district_id,
+            street_name,
+            insert_date
+        )
+        values(
+            #{address.userProfileId,jdbcType=NUMERIC},
+            #{address.cityId,jdbcType=NUMERIC},
+            #{address.country_id,jdbcType=NUMERIC},
+            #{address.district_id,jdbcType=NUMERIC},
+            #{address.street_name,jdbcType=VARCHAR},
+            NOW()
+        )
+
+    </insert>
+
+    <update id="update">
+
+            update user_addresses
+            <set>
+                <if test="address.streetName != null">
+                    street_name = #{address.streetName},
+                </if>
+                <if test="address.countryId != null">
+                    country_id = #{address.countryId},
+                </if>
+                <if test="address.cityId != null">
+                    city_id = #{address.cityId},
+                </if>
+
+                <if test="address.districtId != null">
+                    district_id = #{address.districtId},
+                </if>
+
+                update_date = NOW()
+
+            </set>
+            WHERE id = #{id}
+
+    </update>
+
+    <delete id="delete">
+        delete from user_addresses where id = #{address_id}
+    </delete>
+
+</mapper>

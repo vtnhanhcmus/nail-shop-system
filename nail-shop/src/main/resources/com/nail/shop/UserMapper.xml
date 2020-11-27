@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.UserMapper">
+
+    <resultMap id="loginMapper" type="UserNail">
+        <id column="usr_id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <association property="userProfile" javaType="UserProfile" resultMap="com.nail.shop.mappers.UserProfileMapper.userProfileMapper"/>
+        <collection property="userRoles" column="user_role_id" resultMap="com.nail.shop.mappers.UserRolesMapper.roleMapper"/>
+    </resultMap>
+
+    <resultMap id="userMapper" type="UserNail">
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <association property="userProfile" javaType="UserProfile" resultMap="com.nail.shop.mappers.UserProfileMapper.userProfileMapper"/>
+        <collection property="userRoles" column="user_role_id" resultMap="com.nail.shop.mappers.UserRolesMapper.roleMapper"/>
+        <collection property="userAddresses" column="user_address_id"  resultMap="com.nail.shop.mappers.AddressMapper.addressMapper"/>
+    </resultMap>
+
+    <select id="search" resultMap="userMapper">
+        SELECT
+            user.id as usr_id,
+            user.username,
+            user_roles.id as user_role_id,
+            user_roles.role as user_role,
+            user_profile.first_name as first_name,
+            user_profile.last_name as last_name,
+            user_profile.sex as sex,
+            user_addresses.user_address_id as user_address_id,
+            user_addresses.street_name as street_name,
+            cities.city_id as city_id,
+            cities.name as city_name,
+            countries.country_id as country_id,
+            countries.name as country_name,
+            districts.district_id as district_id,
+            districts.name as district_name
+
+        FROM user
+        INNER JOIN user_roles ON user.id = user_roles.user_id
+        INNER JOIN user_profile ON user.id = user_profile.user_id
+        LEFT JOIN user_addresses ON user_addresses.user_profile_id = user_profile.id
+        LEFT JOIN cities ON cities.id = user_addresses.city_id
+        LEFT JOIN countries ON countries.id = user_addresses.country_id
+        LEFT JOIN districts ON districts.id = user_addresses.district_id
+        WHERE cities.city_id = #{city_id}
+    </select>
+
+    <sql id="findInfoUser">
+        SELECT
+        user.id as usr_id,
+        user.username,
+        user_roles.id as user_role_id,
+        user_roles.role as user_role,
+        user_profile.first_name as first_name,
+        user_profile.last_name as last_name,
+        user_profile.sex as sex
+        FROM user
+        INNER JOIN user_roles ON user.id = user_roles.user_id
+        INNER JOIN user_profile ON user.id = user_profile.user_id
+    </sql>
+
+    <select id="findByEmail" resultMap="loginMapper">
+        SELECT
+            user.id as usr_id,
+            user.password as password,
+            user_profile.first_name as first_name,
+            user_profile.last_name as last_name,
+            user_profile.sex as sex,
+            user.username,
+            user_roles.id as user_role_id,
+            user_roles.role as user_role
+        FROM user
+        INNER JOIN user_roles ON user.id = user_roles.user_id
+        INNER JOIN user_profile ON user.id = user_profile.user_id
+        WHERE user.username = #{email}
+    </select>
+
+    <select id="findByUserId" resultMap="userMapper">
+        SELECT
+        user.id as usr_id,
+        user.username,
+        user_roles.id as user_role_id,
+        user_roles.role as user_role,
+        user_profile.first_name as first_name,
+        user_profile.last_name as last_name,
+        user_profile.sex as sex,
+        user_addresses.user_address_id as user_address_id,
+        user_addresses.street_name as street_name,
+        cities.city_id as city_id,
+        cities.name as city_name,
+        countries.country_id as country_id,
+        countries.name as country_name,
+        districts.district_id as district_id,
+        districts.name as district_name
+
+        FROM user
+        INNER JOIN user_roles ON user.id = user_roles.user_id
+        INNER JOIN user_profile ON user.id = user_profile.user_id
+        LEFT JOIN user_addresses ON user_addresses.user_profile_id = user_profile.id
+        LEFT JOIN cities ON cities.id = user_addresses.city_id
+        LEFT JOIN countries ON countries.id = user_addresses.country_id
+        LEFT JOIN districts ON districts.id = user_addresses.district_id
+        WHERE user.user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="UserNail"  useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO user
+        (
+            id,
+            username,
+            password,
+            insert_date
+        )
+        VALUES
+        (
+            #{userNail.id},
+            #{userNail.username},
+            #{userNail.password},
+            NOW()
+        );
+    </insert>
+
+    <update id="updatePassword">
+        UPDATE user
+            SET
+            password = #{password},
+            update_date = NOW()
+        WHERE id = #{userId};
+    </update>
+
+</mapper>

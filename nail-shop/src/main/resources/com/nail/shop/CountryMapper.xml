@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.CountryMapper" >
+
+    <resultMap id="countryResult" type="Countries">
+        <id property="id" column="co_id"/>
+        <result column="country_name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="countryResult">
+        select
+        id as co_id,
+        name as country_name
+        from countries
+    </select>
+
+</mapper>

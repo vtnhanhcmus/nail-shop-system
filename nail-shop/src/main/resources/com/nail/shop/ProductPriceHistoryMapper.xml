@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nail.shop.mappers.ProductPriceHistoryMapper">
+
+    <resultMap id="ProductPriceHistoryMapper" type="ProductPriceHistory">
+        <id column="p_id" jdbcType="INTEGER" property="id"/>
+        <result column="product_id" jdbcType="VARCHAR" property="productId"/>
+        <result column="price" jdbcType="DOUBLE" property="price"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO product_price_history
+        (
+            product_id,
+            discount,
+            price
+        )
+        VALUES
+        (
+            #{price.productId},
+            #{price.discount},
+            #{price.price}
+        );
+
+    </insert>
+
+    <select id="findByProductIdAndPrice" resultMap="ProductPriceHistoryMapper">
+        select
+        id as p_id,
+        product_id,
+        price
+        from product_price_history
+        where product_id = #{productId} and price = #{price}
+    </select>
+
+</mapper>
