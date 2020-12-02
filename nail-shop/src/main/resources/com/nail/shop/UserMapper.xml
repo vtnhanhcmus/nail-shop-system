@@ -77,20 +77,20 @@
 
     <select id="findByUserId" resultMap="userMapper">
         SELECT
-        user.id as usr_id,
+        BIN_TO_UUID(user.id) as usr_id,
         user.username,
-        user_roles.id as user_role_id,
+        BIN_TO_UUID(user_roles.id) as user_role_id,
         user_roles.role as user_role,
         user_profile.first_name as first_name,
         user_profile.last_name as last_name,
         user_profile.sex as sex,
-        user_addresses.user_address_id as user_address_id,
+        BIN_TO_UUID(user_addresses.id) as user_address_id,
         user_addresses.street_name as street_name,
-        cities.city_id as city_id,
+        BIN_TO_UUID(cities.id) as city_id,
         cities.name as city_name,
-        countries.country_id as country_id,
+        BIN_TO_UUID(countries.id) as country_id,
         countries.name as country_name,
-        districts.district_id as district_id,
+        BIN_TO_UUID(districts.id) as district_id,
         districts.name as district_name
 
         FROM user
@@ -100,10 +100,15 @@
         LEFT JOIN cities ON cities.id = user_addresses.city_id
         LEFT JOIN countries ON countries.id = user_addresses.country_id
         LEFT JOIN districts ON districts.id = user_addresses.district_id
-        WHERE user.user_id = #{userId}
+        WHERE user.id = #{userId}
     </select>
 
-    <insert id="insert" parameterType="UserNail"  useGeneratedKeys="true" keyProperty="id" >
+    <insert id="insert" parameterType="UserNail">
+
+        <selectKey keyProperty="userNail.id" keyColumn="id" resultType="string" order="BEFORE">
+            select uuid()
+        </selectKey>
+
         INSERT INTO user
         (
             id,
@@ -113,11 +118,12 @@
         )
         VALUES
         (
-            #{userNail.id},
+            UUID_TO_BIN(#{userNail.id}),
             #{userNail.username},
             #{userNail.password},
             NOW()
         );
+
     </insert>
 
     <update id="updatePassword">

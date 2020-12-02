@@ -10,13 +10,12 @@
 
     <select id="findByCity" resultMap="districtMapper">
         select
-        d.id as dist_id,
-        d.district_id as district_id,
-        d.city_id,
+        BIN_TO_UUID(d.id) as dist_id,
+        BIN_TO_UUID(d.city_id) as city_id,
         d.name as district_name
         from
         districts d
-        where d.city_id = #{city_id}
+        where d.city_id = UUID_TO_BIN(#{city_id})
     </select>
 
 </mapper>

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface CityMapper {
-    List<Cities> findByCountry(@Param("country_id") Long countryId);
+    List<Cities> findByCountry(@Param("country_id") String countryId);
 }

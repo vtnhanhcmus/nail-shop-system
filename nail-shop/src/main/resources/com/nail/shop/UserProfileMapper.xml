@@ -9,7 +9,12 @@
         <result column="sex" jdbcType="VARCHAR" property="sex"/>
     </resultMap>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id" >
+    <insert id="insert" parameterType="UserProfile">
+
+        <selectKey keyProperty="userProfile.id" keyColumn="id" resultType="string" order="BEFORE">
+            select uuid()
+        </selectKey>
+
         INSERT INTO user_profile
         (
             id,
@@ -22,8 +27,8 @@
         )
         VALUES
         (
-            #{userProfile.id},
-            #{userProfile.userId},
+            UUID_TO_BIN(#{userProfile.id}),
+            UUID_TO_BIN(#{userProfile.userId}),
             #{userProfile.firstName},
             #{userProfile.lastName},
             #{userProfile.sex},

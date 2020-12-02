@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Service
@@ -44,7 +43,6 @@ public class UserServiceImpl implements UserService {
         UserNail userNail = UserNail.builder()
                 .username(userSignUpRequest.getEmail())
                 .password(new BCryptPasswordEncoder().encode(userSignUpRequest.getPassword())).build();
-        userNail.setId(UUID.randomUUID().toString());
         userMapper.insert(userNail);
 
         UserProfile userProfile = UserProfile.builder()
@@ -54,12 +52,11 @@ public class UserServiceImpl implements UserService {
                 .sex(Long.valueOf(1))
                 .build();
 
-        userProfile.setId(UUID.randomUUID().toString());
         userProfileMapper.insert(userProfile);
         userNail.setUserProfile(userProfile);
         UserRoles userRoles = UserRoles.builder().userId(userNail.getId()).role(UserRole.ADMIN.name()).build();
         userRolesMapper.insert(userRoles);
-        userNail = userMapper.findByUserId(userNail.getId().toString());
+        userNail = userMapper.findByUserId(userNail.getId());
         return Optional.of(userNail);
     }
 
@@ -84,11 +81,6 @@ public class UserServiceImpl implements UserService {
         changeRoleRequest.getRoles().stream().forEach(role -> userRolesMapper.update(role, userId));
         return Optional.of(userMapper.findByUserId(userId));
     }
-
-    public static void main(String[] args) {
-        System.out.println(UUID.randomUUID());
-    }
-
 
     @Override
     public List<UserNail> findAll() {

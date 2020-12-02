@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
+
     void insert(@Param("userNail") UserNail userNail);
     UserNail updatePassword(@Param("passwordRequest") PasswordRequest passwordRequest);
     void delete(@Param("userId") String userId);

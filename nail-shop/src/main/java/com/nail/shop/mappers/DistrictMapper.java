@@ -7,5 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface DistrictMapper {
-    List<Districts> findByCity(@Param("city_id") Long cityId);
+    List<Districts> findByCity(@Param("city_id") String cityId);
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("addresses")
@@ -38,18 +39,15 @@ public class AddressController {
     @GetMapping(value = "/{countryId}/cities", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Cities> citiesList(@PathVariable("countryId") Long countryId) {
+    public List<Cities> citiesList(@PathVariable("countryId") String countryId) {
         return cityService.findByCountry(countryId);
     }
 
     @GetMapping(value = "/{cityId}/districts", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Districts> districtList(@PathVariable("cityId") Long cityId) {
+    public List<Districts> districtList(@PathVariable("cityId") String cityId) {
         return districtService.findByCity(cityId);
     }
-
-
-
 
 }

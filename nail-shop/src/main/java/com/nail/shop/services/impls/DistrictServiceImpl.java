@@ -14,7 +14,7 @@ public class DistrictServiceImpl implements DistrictService {
     private DistrictMapper districtMapper;
 
     @Override
-    public List<Districts> findByCity(Long cityId) {
+    public List<Districts> findByCity(String cityId) {
         return districtMapper.findByCity(cityId);
     }
 }

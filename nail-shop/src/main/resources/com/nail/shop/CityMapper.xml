@@ -9,11 +9,11 @@
 
     <select id="findByCountry" resultMap="cityMapper">
         select
-            c.id as city_id,
+            BIN_TO_UUID(c.id) as city_id,
             c.name as city_name
         from
         cities c
-        where c.country_id = #{country_id}
+        where c.country_id = UUID_TO_BIN(#{country_id})
     </select>
 
 </mapper>

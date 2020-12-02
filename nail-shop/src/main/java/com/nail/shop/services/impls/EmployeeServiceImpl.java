@@ -33,7 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 throw new RuntimeException("Not valid owner or user");
             }
 
-            OwnerEmployees ownerEmployee = OwnerEmployees.builder().ownerId(owner.getId()).employeeId(user.getId()).build();
+            OwnerEmployees ownerEmployee = OwnerEmployees.builder().ownerId(owner.getId().toString()).employeeId(user.getId().toString()).build();
             OwnerEmployees ownerEmp = ownerEmployeeMapper.findByOwnerIdAndEmployeeId(owner.getId().toString(), user.getId().toString());
 
             if (Objects.isNull(ownerEmp)){

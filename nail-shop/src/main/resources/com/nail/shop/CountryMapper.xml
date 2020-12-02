@@ -9,7 +9,7 @@
 
     <select id="findAll" resultMap="countryResult">
         select
-        id as co_id,
+        BIN_TO_UUID(id) as co_id,
         name as country_name
         from countries
     </select>

@@ -16,7 +16,10 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
+        <typeAlias alias="UUID" type="java.util.UUID"/>
+        <typeAlias alias="UUIDTypeHandler" type="com.nail.shop.models.UUIDTypeHandler" />
         <package name="com.nail.shop.models"/>
+
     </typeAliases>
     <mappers>
         <mapper resource="com/nail/shop/AddressMapper.xml"/>

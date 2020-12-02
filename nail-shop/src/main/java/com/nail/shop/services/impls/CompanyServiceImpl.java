@@ -34,7 +34,7 @@ public class CompanyServiceImpl implements CompanyService {
                 .description(companySignUpRequest.getDescription())
                 .name(companySignUpRequest.getCompanyName())
                 .imagePath(companySignUpRequest.getImagePath())
-                .ownerId(userNail.get().getId())
+                .ownerId(userNail.get().getId().toString())
                 .build();
         companyMapper.insert(company);
     }
@@ -48,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService {
         }
         company.setDescription(companySignUpRequest.getDescription());
         company.setImagePath(companySignUpRequest.getImagePath());
-        company.setOwnerId(userNail.get().getId());
+        company.setOwnerId(userNail.get().getId().toString());
         companyMapper.update(company);
     }
 
