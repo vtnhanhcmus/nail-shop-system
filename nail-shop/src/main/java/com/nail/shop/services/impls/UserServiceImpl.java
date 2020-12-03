@@ -1,5 +1,6 @@
 package com.nail.shop.services.impls;
 
+import com.google.common.collect.Lists;
 import com.nail.shop.mappers.AddressMapper;
 import com.nail.shop.mappers.UserMapper;
 import com.nail.shop.mappers.UserProfileMapper;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +41,7 @@ public class UserServiceImpl implements UserService {
     private UserRolesMapper userRolesMapper;
 
     @Override
-    public Optional<UserNail> signUp(UserSignUpRequest userSignUpRequest) {
+    public void signUp(UserSignUpRequest userSignUpRequest) {
 
         UserNail userNail = UserNail.builder()
                 .username(userSignUpRequest.getEmail())
@@ -49,15 +52,16 @@ public class UserServiceImpl implements UserService {
                 .firstName(userSignUpRequest.getFirstName())
                 .lastName(userSignUpRequest.getLastName())
                 .userId(userNail.getId())
-                .sex(Long.valueOf(1))
+                .sex(userSignUpRequest.getSex().getValue())
                 .build();
-
         userProfileMapper.insert(userProfile);
-        userNail.setUserProfile(userProfile);
+
         UserRoles userRoles = UserRoles.builder().userId(userNail.getId()).role(UserRole.ADMIN.name()).build();
-        userRolesMapper.insert(userRoles);
-        userNail = userMapper.findByUserId(userNail.getId());
-        return Optional.of(userNail);
+        List<UserRoles> userRolesList = new ArrayList<>();
+        userSignUpRequest.getRoles().stream().forEach(role-> {
+            userRolesList.add(UserRoles.builder().role(role).userId(userNail.getId()).build());
+        });
+        userRolesMapper.insert(userRolesList);
     }
 
     @Override
@@ -80,11 +84,6 @@ public class UserServiceImpl implements UserService {
     public Optional<UserNail> changeRole(String userId, ChangeRoleRequest changeRoleRequest) {
         changeRoleRequest.getRoles().stream().forEach(role -> userRolesMapper.update(role, userId));
         return Optional.of(userMapper.findByUserId(userId));
-    }
-
-    @Override
-    public List<UserNail> findAll() {
-        return null;
     }
 
     @Override

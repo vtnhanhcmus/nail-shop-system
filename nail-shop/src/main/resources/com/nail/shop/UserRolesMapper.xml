@@ -8,11 +8,6 @@
     </resultMap>
 
     <insert id="insert"  parameterType="UserRoles">
-
-        <selectKey keyProperty="role.id" keyColumn="id" resultType="string" order="BEFORE">
-            select uuid()
-        </selectKey>
-
         INSERT INTO user_roles
         (
             id,
@@ -21,12 +16,12 @@
             permission
         )
         VALUES
-        (
-            UUID_TO_BIN(#{role.id}),
+        <foreach collection="roles" item="role" index="index" open="(" separator="),("  close=")">
+            UUID_TO_BIN(uuid()),
             UUID_TO_BIN(#{role.userId}),
             #{role.role,jdbcType=VARCHAR},
             #{role.permission,jdbcType=NUMERIC}
-        )
+        </foreach>
     </insert>
 
     <update id="update">

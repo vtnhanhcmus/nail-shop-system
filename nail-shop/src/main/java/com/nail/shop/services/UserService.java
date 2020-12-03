@@ -4,12 +4,10 @@ import com.nail.shop.rest.dto.ChangeRoleRequest;
 import com.nail.shop.rest.dto.PasswordRequest;
 import com.nail.shop.rest.dto.UserSignUpRequest;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserService{
-    Optional<UserNail> signUp(UserSignUpRequest userSignUpRequest);
-    List<UserNail> findAll();
+    void signUp(UserSignUpRequest userSignUpRequest);
     void delete(String userId);
     Optional<UserNail> findByEmail(String email);
     UserNail findByUserId(String userId);

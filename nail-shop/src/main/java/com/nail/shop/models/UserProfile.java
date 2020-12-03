@@ -12,6 +12,6 @@ public class UserProfile extends BaseModel{
   private String userId;
   private String firstName;
   private String lastName;
-  private Long sex;
+  private Integer sex;
   private List<UserAddresses> userAddresses;
 }

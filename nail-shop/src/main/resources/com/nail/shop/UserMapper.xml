@@ -100,7 +100,7 @@
         LEFT JOIN cities ON cities.id = user_addresses.city_id
         LEFT JOIN countries ON countries.id = user_addresses.country_id
         LEFT JOIN districts ON districts.id = user_addresses.district_id
-        WHERE user.id = #{userId}
+        WHERE user.id = UUID_TO_BIN(#{userId})
     </select>
 
     <insert id="insert" parameterType="UserNail">

@@ -26,9 +26,9 @@ public class AccountController {
     private AddressService addressService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserNail> signUp(@RequestBody UserSignUpRequest userSignUpRequest){
-        Optional<UserNail> userNail = userService.signUp(userSignUpRequest);
-        return ResponseEntity.ok().body(userNail.get());
+    public ResponseEntity signUp(@RequestBody UserSignUpRequest userSignUpRequest){
+        userService.signUp(userSignUpRequest);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{userId}")
