@@ -1,6 +1,5 @@
 package com.nail.shop.services.impls;
 
-import com.nail.shop.components.CoreSystemAuthentication;
 import com.nail.shop.mappers.*;
 import com.nail.shop.models.*;
 import com.nail.shop.rest.dto.ProductSignUpRequest;
@@ -37,9 +36,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductPriceHistoryMapper productPriceHistoryMapper;
-
-    @Autowired
-    private CoreSystemAuthentication coreSystemAuthentication;
 
     @Override
     public void save(ProductSignUpRequest productSignUpRequest) {

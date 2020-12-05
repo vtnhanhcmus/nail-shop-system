@@ -49,7 +49,7 @@ public class AccountController {
         return ResponseEntity.ok().body(userNail.get());
     }
 
-    @PutMapping("/profile")
+    @PostMapping("/profile")
     public ResponseEntity<UserProfile> updateProfile(@RequestBody UserProfileRequest request) {
         userProfileService.update(request);
         return ResponseEntity.ok().build();

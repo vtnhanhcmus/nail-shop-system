@@ -18,7 +18,7 @@ public class CustomTokenConverter extends JwtAccessTokenConverter {
             ApplicationUser user = (ApplicationUser) authentication.getPrincipal();
             final Map<String, Object> additionalInfo = new HashMap<>();
 
-            additionalInfo.put("userId", user.getAppUser().getId());
+            additionalInfo.put("id", user.getAppUser().getId());
             additionalInfo.put("userProfileId", user.getAppUser().getUserProfile().getId());
             additionalInfo.put("email", user.getAppUser().getUsername());
             additionalInfo.put("firstName", user.getAppUser().getUserProfile().getFirstName());

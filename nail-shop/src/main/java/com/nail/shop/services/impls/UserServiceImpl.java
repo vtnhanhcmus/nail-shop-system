@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
                 .build();
         userProfileMapper.insert(userProfile);
 
-        UserRoles userRoles = UserRoles.builder().userId(userNail.getId()).role(UserRole.ADMIN.name()).build();
         List<UserRoles> userRolesList = new ArrayList<>();
         userSignUpRequest.getRoles().stream().forEach(role-> {
             userRolesList.add(UserRoles.builder().role(role).userId(userNail.getId()).build());

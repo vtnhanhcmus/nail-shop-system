@@ -1,6 +1,5 @@
 package com.nail.shop.services.impls;
 
-import com.nail.shop.components.CoreSystemAuthentication;
 import com.nail.shop.mappers.ShopDetailMapper;
 import com.nail.shop.mappers.ShopMapper;
 import com.nail.shop.models.ShopDetail;
@@ -25,9 +24,6 @@ public class ShopServiceImpl implements ShopService {
 
     @Autowired
     private ShopDetailMapper shopDetailMapper;
-
-    @Autowired
-    private CoreSystemAuthentication coreSystemAuthentication;
 
     @Override
     public void insert(ShopSignUpRequest shopSignUpRequest) {

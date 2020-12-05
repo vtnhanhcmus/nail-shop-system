@@ -3,7 +3,7 @@
 <mapper namespace="com.nail.shop.mappers.UserMapper">
 
     <resultMap id="loginMapper" type="UserNail">
-        <id column="usr_id" jdbcType="INTEGER" property="id"/>
+        <id column="usr_id" jdbcType="VARCHAR" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <association property="userProfile" javaType="UserProfile" resultMap="com.nail.shop.mappers.UserProfileMapper.userProfileMapper"/>
@@ -61,13 +61,13 @@
 
     <select id="findByEmail" resultMap="loginMapper">
         SELECT
-            user.id as usr_id,
+            BIN_TO_UUID(user.id) as usr_id,
             user.password as password,
             user_profile.first_name as first_name,
             user_profile.last_name as last_name,
             user_profile.sex as sex,
             user.username,
-            user_roles.id as user_role_id,
+            BIN_TO_UUID(user_roles.id) as user_role_id,
             user_roles.role as user_role
         FROM user
         INNER JOIN user_roles ON user.id = user_roles.user_id
