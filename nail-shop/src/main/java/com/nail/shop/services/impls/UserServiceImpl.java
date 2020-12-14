@@ -74,9 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserNail> changePassword(String userId, PasswordRequest passwordRequest) {
+    public void changePassword(String userId, PasswordRequest passwordRequest) {
         userMapper.updatePassword(passwordRequest);
-        return Optional.of(userMapper.findByUserId(userId));
     }
 
     @Override

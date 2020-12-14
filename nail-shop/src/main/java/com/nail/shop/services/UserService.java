@@ -11,6 +11,6 @@ public interface UserService{
     void delete(String userId);
     Optional<UserNail> findByEmail(String email);
     UserNail findByUserId(String userId);
-    Optional<UserNail> changePassword(String userId, PasswordRequest passwordRequest);
+    void changePassword(String userId, PasswordRequest passwordRequest);
     Optional<UserNail> changeRole(String userId, ChangeRoleRequest roleRequest);
 }

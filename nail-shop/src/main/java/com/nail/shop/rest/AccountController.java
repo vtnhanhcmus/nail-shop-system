@@ -9,6 +9,8 @@ import com.nail.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +27,8 @@ public class AccountController {
     @Autowired
     private AddressService addressService;
 
-    @PostMapping("/register")
-    public ResponseEntity signUp(@RequestBody UserSignUpRequest userSignUpRequest){
+    @PostMapping("/signUp")
+    public ResponseEntity signUp(@RequestBody @Valid UserSignUpRequest userSignUpRequest){
         userService.signUp(userSignUpRequest);
         return ResponseEntity.ok().build();
     }
@@ -37,10 +39,10 @@ public class AccountController {
         return ResponseEntity.ok().body(userNail);
     }
 
-    @PutMapping("/{userId}/changePassword")
+    @PostMapping("/{userId}/changePassword")
     public ResponseEntity<UserNail> updateUserPassword(@RequestBody PasswordRequest passwordRequest, @PathVariable("userId") String userId) {
-        Optional<UserNail> userNail = userService.changePassword(userId, passwordRequest);
-        return ResponseEntity.ok().body(userNail.get());
+        userService.changePassword(userId, passwordRequest);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{userId}/changeRole")
